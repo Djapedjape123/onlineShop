@@ -8,7 +8,13 @@ import { CiShoppingCart } from "react-icons/ci";
 import { Link } from 'react-router-dom'
 //clerk
 import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react' 
+import { useSelector } from 'react-redux';
 function NavBArComponent() {
+   
+
+  let totalProduct = JSON.parse(localStorage.getItem('cart_total'))
+  //  const { totalProduct} = useSelector((state) => state.cartStore) 
+
   return (
     <div className='flex justify-between items-center bg-mainBlue h-full p-5 flex-col lg:flex-row lg:h-[100px]'> 
       <div className='flex justify-between items-center'>
@@ -41,10 +47,10 @@ function NavBArComponent() {
 
         <CiShoppingCart color='white' size={24} />
         <span className="inline-flex items-center justify-center rounded-full w-5 h-5 bg-mainYellow text-white text-xs">
-          0
+          {totalProduct ? totalProduct : 0}
         </span>
 
-        <span className='text-white font-bold'>Card</span>
+        <Link to='/cart' className='text-white font-bold'>Card</Link>
       </div>
     </div>
   )
