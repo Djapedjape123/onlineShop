@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import CategoryProducts from '../services/CategoryProducts'
 import { useDispatch, useSelector } from 'react-redux';
-import { saveAllCategoryActions } from '../store/CategorySlice';
+import { saveAllCategoryActions } from '../store/categorySlice';
 import {saveCategoryAction} from '../store/productsSlice'
 
 
