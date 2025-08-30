@@ -14,7 +14,7 @@ function App() {
       {toggle && <HeaderComponent setTogle={setTogle}/>}
       <NavBArComponent />
       <CategoryComponent />
-     <Outlet/>
+      <Outlet/>
     </>
   )
 }

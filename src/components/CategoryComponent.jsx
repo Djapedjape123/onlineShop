@@ -2,13 +2,15 @@ import React, { useEffect, useState } from 'react'
 import CategoryProducts from '../services/CategoryProducts'
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAllCategoryActions } from '../store/CategorySlice';
+import {saveCategoryAction} from '../store/productsSlice'
+
 
 function CategoryComponent() {
     // const [allCategory, setAllCategory] = useState([]);
-
     const { allCategory } = useSelector((state) => state.categoryStore)
 
     const dispatch = useDispatch()
+
     const [showAll, setShowAll] = useState(false);
     useEffect(() => {
         CategoryProducts.getAllCategory()
@@ -42,16 +44,21 @@ function CategoryComponent() {
 
                 {showAll && (
                     <ul className="flex flex-wrap gap-2">
-                        {allCategory.map((cate, index) => (
-                            <li
-                                key={index}
-                                className="bg-white text-gray-800 px-4 py-1 rounded-full shadow text-sm cursor-pointer hover:bg-gray-100 list-none"
-                            >
-                                {cate}
-                            </li>
-                        ))}
-                    </ul>
-                )}
+                        <li className="bg-white text-gray-800 px-4 py-1 rounded-full shadow text-sm cursor-pointer hover:bg-gray-100 list-none"
+                        onClick={()=> dispatch(saveCategoryAction(''))}
+                        >All category</li>
+                       {allCategory.map((cate, index) => (
+                          
+                          <li
+                              key={index}
+                              className="bg-white text-gray-800 px-4 py-1 rounded-full shadow text-sm cursor-pointer hover:bg-gray-100 list-none hover:shadow-lg hover:shadow-mainBlue"
+                              onClick={() => dispatch(saveCategoryAction(cate))}
+                           >
+                             {cate}
+                         </li>
+                 ))}
+    </ul>
+)}
 
             </div>
 

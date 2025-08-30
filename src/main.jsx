@@ -9,6 +9,7 @@ import HomePage from './pages/HomePage.jsx'
 import store from './store/store.js'
 import SingleProductPage from './pages/SingleProductPage.jsx'
 import CardPage from './pages/CardPage.jsx'
+import FavoritePage from './pages/FavoritePage'
 //clerk
 import { ClerkProvider } from '@clerk/clerk-react'
 
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path:'/cart',
         element: <CardPage/>
+      },
+      {
+        path:'/favorite',
+        element: <FavoritePage/>
       }
     ]
   }
