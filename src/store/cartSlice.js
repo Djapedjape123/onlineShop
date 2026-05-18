@@ -9,7 +9,7 @@ const cartSlice = createSlice({
     },
     reducers: {
         saveInCartAction: (state, action) => {
-            // console.log(action.payload);
+            
 
             let copyCart = [...state.cart];
 
