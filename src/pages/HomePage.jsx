@@ -40,11 +40,11 @@ function HomePage() {
   }, [selectCategory, limit])
   
   return (
-    <div className='max-w-[1400px] mx-auto px-4 py-6 sm:py-8'>
+    <div className='max-w-[1400px] className="bg-gradient-to-t from-slate-600 to-white" mx-auto px-4 py-6 sm:py-8'>
       
       {/* Dugmici za promenu prikaza (Grid / List) */}
       <div className='flex items-center justify-end mb-6'>
-        <div className="flex items-center bg-gray-100 p-1 rounded-lg border border-gray-200">
+        <div className="flex items-center bg-gray-200 p-1 rounded-lg border border-gray-200">
           <button 
             onClick={() => setIsGrid('listView')} 
             className={`p-2 rounded-md transition-all duration-300 flex items-center justify-center ${isGrid === 'listView' ? 'bg-white shadow text-mainBlue' : 'text-gray-400 hover:text-gray-600'}`}
