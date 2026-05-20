@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react'
 import CategoryProducts from '../services/CategoryProducts'
 import { useDispatch, useSelector } from 'react-redux';
 import { saveAllCategoryActions } from '../store/categorySlice';
-import {saveCategoryAction} from '../store/productsSlice'
-
+import { saveCategoryAction } from '../store/productsSlice'
 
 function CategoryComponent() {
     // const [allCategory, setAllCategory] = useState([]);
@@ -12,56 +11,68 @@ function CategoryComponent() {
     const dispatch = useDispatch()
 
     const [showAll, setShowAll] = useState(false);
+    
     useEffect(() => {
         CategoryProducts.getAllCategory()
             .then((res) => dispatch(saveAllCategoryActions(res.data)))
             .catch(err => console.log(err))
-
     }, [])
 
     function showCategory() {
         setShowAll(!showAll);
     }
+    
     return (
-        <div className='bg-gray-200 p-3'>
-            <div className='container mx-auto flex p-3'>
-                {!showAll ? (
-                    <button
-                        className='py-2 px-4 w-fit bg-blue-800 hover:bg-blue-700 rounded-lg text-white'
-                        onClick={showCategory}
-                    >
-                        Show category
-                    </button>
-                ) : (
-                    <button
-                        className='py-2 px-4 m-3 bg-red-600 hover:bg-red-500 rounded-full text-white h-[50px]'
-                        onClick={showCategory}
-                    >
-                        X
-                    </button>
-                )}
+        <div className='bg-gray-50 border-b border-gray-200 shadow-sm'>
+            <div className='max-w-[1400px] mx-auto px-4 py-3 sm:py-4'>
+                <div className='flex flex-col sm:flex-row sm:items-start gap-4'>
+                    
+                    {/* Dugmad za prikaz/skrivanje */}
+                    {!showAll ? (
+                        <button
+                            className='w-full sm:w-auto flex-shrink-0 py-2.5 px-6 bg-mainBlue hover:bg-blue-800 text-white font-semibold rounded-full shadow-md hover:shadow-lg transition-all duration-300'
+                            onClick={showCategory}
+                        >
+                            Show categories
+                        </button>
+                    ) : (
+                        <button
+                            className='w-full sm:w-auto sm:h-12 flex-shrink-0 flex items-center justify-center py-2.5 px-4 bg-red-50 text-red-600 hover:bg-red-500 hover:text-white font-bold rounded-full transition-all duration-300 border border-red-200 hover:border-transparent shadow-sm'
+                            onClick={showCategory}
+                            title="Zatvori kategorije"
+                        >
+                            X
+                        </button>
+                    )}
 
-
-                {showAll && (
-                    <ul className="flex flex-wrap gap-2">
-                        <li className="bg-white text-gray-800 px-4 py-1 rounded-full shadow text-sm cursor-pointer hover:bg-gray-100 list-none"
-                        onClick={()=> dispatch(saveCategoryAction(''))}
-                        >All category</li>
-                       {allCategory.map((cate, index) => (
-                          
-                          <li
-                              key={index}
-                              className="bg-white text-gray-800 px-4 py-1 rounded-full shadow text-sm cursor-pointer hover:bg-gray-100 list-none hover:shadow-lg hover:shadow-mainBlue"
-                              onClick={() => dispatch(saveCategoryAction(cate))}
-                           >
-                             {cate}
-                         </li>
-                 ))}
-    </ul>
-)}
-
+                    {/* Lista kategorija */}
+                    {showAll && (
+                        <div className="w-full animate-fade-in">
+                            <ul className="flex flex-wrap gap-2.5">
+                                {/* Opcija za sve kategorije */}
+                                <li 
+                                    className="px-5 py-2 bg-white text-gray-700 font-medium text-sm rounded-full shadow-sm border border-gray-200 cursor-pointer hover:border-mainBlue hover:text-mainBlue hover:bg-blue-50 transition-all duration-300 select-none"
+                                    onClick={() => dispatch(saveCategoryAction(''))}
+                                >
+                                    All categories
+                                </li>
+                                
+                                {/* Dinamičke kategorije */}
+                                {allCategory.map((cate, index) => (
+                                    <li
+                                        key={index}
+                                        className="px-5 py-2 bg-white text-gray-700 font-medium text-sm rounded-full shadow-sm border border-gray-200 cursor-pointer hover:border-mainBlue hover:text-mainBlue hover:bg-blue-50 transition-all duration-300 select-none capitalize"
+                                        onClick={() => dispatch(saveCategoryAction(cate))}
+                                    >
+                                        {cate}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    )}
+                    
+                </div>
             </div>
-
         </div>
     )
 }

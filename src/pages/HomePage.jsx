@@ -9,60 +9,92 @@ import { MdGridOn } from "react-icons/md";
 
 function HomePage() {
   const dispatch = useDispatch();
-  const {allProducts,isLoading ,selectCategory,searchProducts} = useSelector((state) => state.productsStore) 
-  const [isGrid ,setIsGrid] = useState('gridView')
-  const [limit , setLimit] = useState(10);
+  const { allProducts, isLoading, selectCategory, searchProducts } = useSelector((state) => state.productsStore) 
+  const [isGrid, setIsGrid] = useState('gridView')
+  const [limit, setLimit] = useState(10);
 
-
-  useEffect(()=>{
-    if(searchProducts){
+  useEffect(() => {
+    if (searchProducts) {
         AllProducts.getSearchProduct(searchProducts)
-        .then((res) =>{
+        .then((res) => {
           dispatch(saveAllProductsActions(res.data.products))
         })
         .catch((err) => console.log(err))
     }
-     
-  },[searchProducts]) 
+  }, [searchProducts]) 
 
-  useEffect(()=>{
-    if(selectCategory){
+  useEffect(() => {
+    if (selectCategory) {
       AllProducts.getAllProductsByCategort(selectCategory)
-        .then((res) =>{
+        .then((res) => {
           dispatch(saveAllProductsActions(res.data.products))
         })
         .catch((err) => console.log(err))
-    }else{
+    } else {
       AllProducts.getAllProducts(limit)
-        .then((res) =>{
+        .then((res) => {
           dispatch(saveAllProductsActions(res.data.products))
         })
         .catch((err) => console.log(err))
     }
-     
-  },[selectCategory,limit])
+  }, [selectCategory, limit])
   
-
   return (
-    <div className='container mx-auto'>
-      <div className='flex items-center justify-end p-4 gap-2'>
-        <FaList size={32} color={isGrid ==='listView'?'red':''} onClick={()=> setIsGrid('listView')} className={isGrid ==='listView' ? 'bg-mainYellow p-2 cursor-pointer rounded-md' :'cursor-pointer'}/>
-        <MdGridOn size={32} color={isGrid ==='gridView'?'red':''} onClick={()=> setIsGrid('gridView')} className={isGrid === 'gridView' ? 'bg-mainYellow p-2 cursor-pointer rounded-md' :'cursor-pointer'}/>
+    <div className='max-w-[1400px] mx-auto px-4 py-6 sm:py-8'>
+      
+      {/* Dugmici za promenu prikaza (Grid / List) */}
+      <div className='flex items-center justify-end mb-6'>
+        <div className="flex items-center bg-gray-100 p-1 rounded-lg border border-gray-200">
+          <button 
+            onClick={() => setIsGrid('listView')} 
+            className={`p-2 rounded-md transition-all duration-300 flex items-center justify-center ${isGrid === 'listView' ? 'bg-white shadow text-mainBlue' : 'text-gray-400 hover:text-gray-600'}`}
+            title="List view"
+          >
+            <FaList size={20} />
+          </button>
+          <button 
+            onClick={() => setIsGrid('gridView')} 
+            className={`p-2 rounded-md transition-all duration-300 flex items-center justify-center ${isGrid === 'gridView' ? 'bg-white shadow text-mainBlue' : 'text-gray-400 hover:text-gray-600'}`}
+            title="Grid view"
+          >
+            <MdGridOn size={22} />
+          </button>
+        </div>
       </div>
-     {isLoading ?(
-      <div className={isGrid ==='gridView' ? 'flex flex-wrap items-center justify-center gap-[10px]':'flex flex-col justify-center items-center gap-[15px]'}>
-        {allProducts.map((product) =>{
-          return (
-            <CardComponent key={product.id} product={product} setIsGrid={setIsGrid} isGrid={isGrid}/>
-          )
-        })}
-      </div>
-     ): <div>Loading</div>}
-       {!selectCategory && (<div className='mt-3 flex items-center justify-center'>
-          <button className='bg-mainBlue text-white px-[22px] py-[6px] my-[20px] mx-[7px] rounded-lg hover:bg-mainYellow transition durection-all'
-           onClick={() => setLimit(limit + 5)}
-          >More products...</button>
-       </div>)}
+
+      {/* Prikaz proizvoda ili Loading */}
+      {isLoading ? (
+        <div className={
+          isGrid === 'gridView' 
+            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6' // Moderni Grid
+            : 'flex flex-col gap-6' // Moderni List
+        }>
+          {allProducts.map((product) => {
+            return (
+              <CardComponent key={product.id} product={product} setIsGrid={setIsGrid} isGrid={isGrid}/>
+            )
+          })}
+        </div>
+      ) : (
+        // Moderan Loading Spinner umesto obicnog teksta
+        <div className="flex flex-col items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-mainBlue"></div>
+          <p className="mt-4 text-gray-500 font-medium">Učitavanje proizvoda...</p>
+        </div>
+      )}
+
+      {/* Dugme za jos proizvoda */}
+      {!selectCategory && (
+        <div className='mt-10 flex items-center justify-center'>
+          <button 
+            className='w-full sm:w-auto bg-mainBlue text-white font-semibold px-8 py-3 rounded-full hover:bg-mainYellow hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1'
+            onClick={() => setLimit(limit + 5)}
+          >
+            Load more products
+          </button>
+        </div>
+      )}
+
     </div>
   )
 }
