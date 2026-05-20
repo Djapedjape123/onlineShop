@@ -5,6 +5,7 @@ import { useState } from 'react'
 import NavBArComponent from './components/NavBArComponent';
 import CategoryComponent from './components/CategoryComponent';
 import axios from 'axios';
+import FooterCOmponent from './components/FooterCOmponent';
 
 axios.defaults.baseURL = 'https://dummyjson.com'
 function App() {
@@ -15,6 +16,7 @@ function App() {
       <NavBArComponent />
       <CategoryComponent />
       <Outlet/>
+      <FooterCOmponent />
     </>
   )
 }
